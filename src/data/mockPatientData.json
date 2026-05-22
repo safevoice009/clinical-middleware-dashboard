@@ -1,0 +1,44 @@
+[
+  {
+    "id": "pat_001",
+    "name": "Sarah Jenkins",
+    "age": 45,
+    "gender": "Female",
+    "clinical_note": "Patient presents with severe acute right lower quadrant abdominal pain, starting 12 hours ago. Pain is sharp and has migrated from the periumbilical region. Associated with nausea, localized anorexia, and low-grade fever (38.1 C). On physical exam, positive McBurney's sign and rebound tenderness. Recommending abdominal ultrasound to confirm acute appendicitis.",
+    "diagnoses": ["Acute appendicitis without generalized peritonitis"],
+    "medications": ["Acetaminophen 500mg PO PRN", "Normal Saline 100ml/hr IV"],
+    "insurance": {
+      "payer": "Aetna Health",
+      "policy_id": "AE-98211-X4",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "pat_002",
+    "name": "Marcus Chen",
+    "age": 62,
+    "gender": "Male",
+    "clinical_note": "Patient complains of chest tightness and pressure radiating down the left arm, onset during mild exertion 2 hours ago. History of hypertension and hyperlipidemia. ECG reveals ST-segment depression in anterior leads. Troponin levels elevated. Immediate referral to cardiology for urgent coronary angiography and potential percutaneous coronary intervention (PCI) under primary diagnosis of non-ST elevation myocardial infarction (NSTEMI).",
+    "diagnoses": ["NSTEMI (Non-ST elevation myocardial infarction)"],
+    "medications": ["Aspirin 325mg PO", "Clopidogrel 300mg loading dose", "Atorvastatin 80mg PO"],
+    "insurance": {
+      "payer": "Blue Cross Blue Shield",
+      "policy_id": "BCBS-44021-H",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "pat_003",
+    "name": "Elena Rostova",
+    "age": 28,
+    "gender": "Female",
+    "clinical_note": "Patient presents with dry cough, shortness of breath, and fatigue for 3 days. History of mild intermittent asthma. SpO2 on room air is 96%. Wheezing noted bilaterally. Suspected viral bronchitis triggering acute asthma exacerbation. Prescribed albuterol nebulizer treatment and short course of oral prednisone.",
+    "diagnoses": ["Acute bronchitis", "Asthma exacerbation"],
+    "medications": ["Albuterol 2.5mg/3ml Nebulizer Q4H", "Prednisone 40mg PO Daily x 5 days"],
+    "insurance": {
+      "payer": "UnitedHealthcare",
+      "policy_id": "UHC-77312-A",
+      "status": "Active"
+    }
+  }
+]

@@ -268,19 +268,28 @@ export const Layout: React.FC = () => {
       <div className="fixed top-4 left-0 right-0 z-45 flex justify-center px-4 pointer-events-none max-w-full">
         <nav className="bg-white/95 backdrop-blur-md border border-[#eae6df] px-4 py-2 rounded-full shadow-[0_12px_40px_rgba(28,25,23,0.045)] flex gap-1.5 md:gap-2 items-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-stone-500 overflow-x-auto max-w-full scrollbar-none whitespace-nowrap pointer-events-auto">
           <button 
-            onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} 
+            onClick={() => {
+              setIsConsoleOpen(false);
+              document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' });
+            }} 
             className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Overview
           </button>
           <button 
-            onClick={() => document.getElementById('patient-intake')?.scrollIntoView({ behavior: 'smooth' })} 
+            onClick={() => {
+              setIsConsoleOpen(false);
+              document.getElementById('patient-intake')?.scrollIntoView({ behavior: 'smooth' });
+            }} 
             className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Patient Intake
           </button>
           <button 
-            onClick={() => document.getElementById('pipeline-engine')?.scrollIntoView({ behavior: 'smooth' })} 
+            onClick={() => {
+              setIsConsoleOpen(false);
+              document.getElementById('pipeline-engine')?.scrollIntoView({ behavior: 'smooth' });
+            }} 
             className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Pipeline Engine
@@ -297,13 +306,19 @@ export const Layout: React.FC = () => {
             Developer Logs
           </button>
           <button 
-            onClick={() => document.getElementById('ecosystem')?.scrollIntoView({ behavior: 'smooth' })} 
+            onClick={() => {
+              setIsConsoleOpen(false);
+              document.getElementById('ecosystem')?.scrollIntoView({ behavior: 'smooth' });
+            }} 
             className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Ecosystem
           </button>
           <button 
-            onClick={() => setIsTourOpen(true)} 
+            onClick={() => {
+              setIsConsoleOpen(false);
+              setIsTourOpen(true);
+            }} 
             className="text-amber-700 bg-amber-50 hover:text-amber-800 hover:bg-amber-100/80 border border-amber-250/40 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95 flex items-center gap-1 font-extrabold"
           >
             ✨ Quick Tour

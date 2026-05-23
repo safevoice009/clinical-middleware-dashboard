@@ -530,6 +530,8 @@ export const Layout: React.FC = () => {
         }}
         activeStep={activeStep}
         setActiveStep={setActiveStep}
+        isConsoleOpen={isConsoleOpen}
+        setIsConsoleOpen={setIsConsoleOpen}
       />
 
       {/* Verifiable Authorship Certificate Modal (Easter Egg) */}

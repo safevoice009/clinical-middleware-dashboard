@@ -12,6 +12,8 @@ interface OnboardingTourProps {
   onSelectPatient: (id: string) => void;
   activeStep: number;
   setActiveStep: (step: number) => void;
+  isConsoleOpen: boolean;
+  setIsConsoleOpen: (open: boolean) => void;
 }
 
 interface TourStep {
@@ -30,6 +32,8 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
   onSelectPatient,
   activeStep,
   setActiveStep,
+  isConsoleOpen,
+  setIsConsoleOpen,
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
@@ -47,6 +51,16 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Synchronize terminal console drawer state with tour step 3
+  useEffect(() => {
+    if (!isOpen) return;
+    if (currentStep === 3) {
+      setIsConsoleOpen(true);
+    } else {
+      setIsConsoleOpen(false);
+    }
+  }, [currentStep, isOpen, setIsConsoleOpen]);
 
   const tourSteps: TourStep[] = [
     {
@@ -303,6 +317,10 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     setCursorPos(prev => ({ ...prev, visible: false }));
     setIsAutoPlaying(false);
     onClose();
+    // Scroll back to top of the page so the user can start fresh
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const startAutoDemo = () => {
@@ -341,7 +359,8 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     }
 
     const spaceBelow = window.innerHeight - highlightRect.bottom;
-    const placeAbove = spaceBelow < 220;
+    // Always place the popover card ABOVE the console drawer header, as placing it below masks the drawer contents
+    const placeAbove = spaceBelow < 220 || currentStepData.targetId === 'console-drawer-header';
 
     return {
       position: 'fixed' as const,

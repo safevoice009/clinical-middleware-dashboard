@@ -132,6 +132,13 @@ export const Layout: React.FC = () => {
     // Collapse drawer after 2 seconds so the user can clearly see the visual flowchart progress
     setTimeout(() => {
       setIsConsoleOpen(false);
+      // Wait for collapse transition to trigger, then scroll smoothly to the visual stepper
+      setTimeout(() => {
+        const element = document.getElementById('pipeline-engine');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
     }, 2000);
   };
 

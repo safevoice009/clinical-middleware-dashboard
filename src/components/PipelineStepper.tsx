@@ -106,13 +106,13 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
         <div className="flex justify-between items-center max-w-4xl mx-auto relative px-4">
           
           {/* Connection Lines Container */}
-          <div className="absolute top-[28px] left-[10%] right-[10%] h-[2px] bg-stone-300 -z-0">
+          <div className="absolute top-[28px] left-[10%] right-[10%] h-[2px] bg-stone-200 -z-0">
             {/* Pulsing active line animation driven by current step */}
             <div 
-              className="h-full bg-stone-900 transition-all duration-1000 ease-out animate-dash"
+              className="h-full transition-all duration-1000 ease-out animate-dash"
               style={{ 
                 width: isRunning ? `${(step / 4) * 100}%` : `${(activeStep / 3) * 100}%`,
-                background: 'linear-gradient(to right, #1c1917, #78716c)'
+                background: 'linear-gradient(to right, #10b981, #f59e0b)'
               }}
             ></div>
           </div>
@@ -140,21 +140,23 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
                 <div 
                   className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-500 shadow-sm ${
                     isActive 
-                      ? 'bg-stone-900 border-stone-900 text-white animate-pulseGlow' 
+                      ? 'bg-amber-500 border-amber-500 text-white animate-pulseGlow shadow-[0_0_20px_rgba(245,158,11,0.4)]' 
                       : isResolved
-                        ? 'bg-stone-850 border-stone-850 text-[#fbfaf7]'
-                        : 'bg-white border-stone-300 text-stone-400 group-hover:border-stone-500 group-hover:text-stone-700'
+                        ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
+                        : 'bg-white border-stone-200 text-stone-400 group-hover:border-stone-400 group-hover:text-stone-700'
                   }`}
                 >
                   <IconComponent className="w-5 h-5" />
                 </div>
                 <div className="text-center mt-3">
-                  <span className={`block text-xs font-extrabold tracking-tight ${
-                    isActive ? 'text-stone-950 font-black' : isResolved ? 'text-stone-800' : 'text-stone-400'
+                  <span className={`block text-xs font-extrabold tracking-tight transition-colors duration-500 ${
+                    isActive ? 'text-amber-600 font-extrabold' : isResolved ? 'text-emerald-700 font-extrabold' : 'text-stone-400 font-semibold'
                   }`}>
                     {item.label}
                   </span>
-                  <span className="hidden md:block text-[9px] font-mono text-stone-400 mt-0.5 uppercase tracking-wider">
+                  <span className={`hidden md:block text-[9px] font-mono mt-0.5 uppercase tracking-wider transition-colors duration-500 ${
+                    isActive ? 'text-amber-500/80 font-bold' : isResolved ? 'text-emerald-600/80 font-bold' : 'text-stone-400'
+                  }`}>
                     {item.desc}
                   </span>
                 </div>

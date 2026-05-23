@@ -74,7 +74,7 @@ export const Layout: React.FC = () => {
       "Role: Clinical Systems Architect / Health Tech Innovator\n" +
       "Credits: AI-Assisted Architecture (Antigravity)\n" +
       "License: MIT License (c) 2026 Dr. Baddam Sucharith Reddy. All rights reserved.\n" +
-      "LinkedIn: https://www.linkedin.com/in/sucharith007/\n" +
+      "LinkedIn: https://www.linkedin.com/in/sucharith007\n" +
       "GitHub: https://github.com/safevoice009\n" +
       "Signature Verification Key: e4c99557bc1fe77b42ff2b67cdb9c24efb48197779de0927c7f3e825a0728c2e",
       "color: #b45309; font-weight: 800; font-size: 13px; font-family: sans-serif; background-color: #fef3c7; padding: 6px 12px; border-radius: 8px; border: 1px solid #f59e0b; margin-bottom: 6px; display: inline-block;",
@@ -434,7 +434,7 @@ export const Layout: React.FC = () => {
             </div>
             <div className="mt-4">
               <a 
-                href="https://www.linkedin.com/in/sucharith007/" 
+                href="https://www.linkedin.com/in/sucharith007" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full py-2.5 px-3 bg-stone-900 hover:bg-stone-855 text-white rounded-xl font-mono text-[9px] font-bold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer hover:scale-[1.03] active:scale-[0.98]"
@@ -587,7 +587,7 @@ export const Layout: React.FC = () => {
             <div className="pt-2 flex flex-col gap-3.5 border-t border-stone-200/60">
               <div className="flex justify-center gap-5 text-[9px] font-mono font-bold uppercase tracking-wider">
                 <a 
-                  href="https://www.linkedin.com/in/sucharith007/" 
+                  href="https://www.linkedin.com/in/sucharith007" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-stone-500 hover:text-stone-950 underline flex items-center gap-1.5"
@@ -627,7 +627,7 @@ export const Layout: React.FC = () => {
             </p>
             <div className="pt-1">
               <a 
-                href="https://www.linkedin.com/in/sucharith007/" 
+                href="https://www.linkedin.com/in/sucharith007" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-[9px] font-mono font-bold text-amber-850 hover:underline flex items-center gap-1"

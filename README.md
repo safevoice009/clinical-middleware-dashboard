@@ -161,6 +161,6 @@ This middleware aggregates concepts from these open-source clinical reasoning mo
 ## 🎓 Developer & Legal Disclaimer
 
 **Developed by Dr. Baddam Sucharith Reddy (AI-Assisted)**  
-*Contact & Portfolios*: [LinkedIn Profile](https://www.linkedin.com/in/sucharith007/) | [GitHub Profile](https://github.com/safevoice009)
+*Contact & Portfolios*: [LinkedIn Profile](https://www.linkedin.com/in/sucharith007) | [GitHub Profile](https://github.com/safevoice009)
 
 *Legal Notice: This software is a proof-of-concept prototype. All patient profiles, clinical narratives, medical codes, policy checks, and database logs are strictly simulated and for demonstration purposes. It should not be used as medical advice or in real production healthcare environments.*

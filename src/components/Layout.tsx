@@ -122,6 +122,16 @@ export const Layout: React.FC = () => {
     fetchPipeline();
   }, []);
 
+  // Auto-scroll to the pipeline engine when simulation steps advance and terminal is closed
+  useEffect(() => {
+    if (isRunning && step > 0 && !isConsoleOpen) {
+      const element = document.getElementById('pipeline-engine');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [step, isRunning, isConsoleOpen]);
+
   const handleTriggerPipeline = () => {
     setClaimJson(null);
     setStep(0);
@@ -132,13 +142,6 @@ export const Layout: React.FC = () => {
     // Collapse drawer after 2 seconds so the user can clearly see the visual flowchart progress
     setTimeout(() => {
       setIsConsoleOpen(false);
-      // Wait for collapse transition to trigger, then scroll smoothly to the visual stepper
-      setTimeout(() => {
-        const element = document.getElementById('pipeline-engine');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 300);
     }, 2000);
   };
 

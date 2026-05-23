@@ -96,7 +96,6 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
   useEffect(() => {
     if (!isRunning || currentStep >= steps.length) {
       if (isRunning && currentStep === steps.length && !claimJson) {
-        // Compile final claim object
         const generatedClaim = {
           claimId: `CLM-${Math.floor(100000 + Math.random() * 900000)}`,
           patient: {
@@ -128,7 +127,6 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
     return () => clearTimeout(timer);
   }, [isRunning, currentStep, patient]);
 
-  // Scroll to bottom of container strictly to avoid page jumping
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -136,63 +134,64 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
   }, [logs]);
 
   return (
-    <div className="bg-slate-950/65 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6 font-mono text-xs leading-relaxed shadow-[0_25px_60px_rgba(0,0,0,0.65)] h-[480px] flex flex-col relative overflow-hidden transition-all duration-300">
+    <div className="bg-white border border-slate-100 rounded-[28px] p-6 font-mono text-xs leading-relaxed shadow-[0_15px_40px_rgba(0,0,0,0.02)] h-[480px] flex flex-col relative overflow-hidden transition-all duration-300">
+      
       {/* Top Header Panel */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3.5 mb-4 shrink-0">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4 shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-100"></span>
           </div>
-          <span className="text-slate-400 font-semibold flex items-center gap-1.5 pl-3 border-l border-white/[0.08] tracking-tight">
-            <Terminal className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+          <span className="text-slate-500 font-semibold flex items-center gap-1.5 pl-3 border-l border-slate-100 tracking-tight">
+            <Terminal className="w-3.5 h-3.5 text-slate-500 animate-pulse" />
             Autonomous Middleware Console
           </span>
         </div>
         <div className="flex items-center gap-2">
           {isRunning && (
-            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 text-[10px]">
-              <RefreshCw className="w-3 h-3 animate-spin" />
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 text-slate-600 border border-slate-100 text-[9px] font-bold tracking-wider uppercase">
+              <RefreshCw className="w-3 h-3 animate-spin text-slate-400" />
               Processing
             </span>
           )}
-          <span className="text-slate-600 text-[10px]">v1.2.0-beta</span>
+          <span className="text-slate-400 text-[10px]">v1.2.0-beta</span>
         </div>
       </div>
 
       {/* Terminal logs container */}
-      <div ref={containerRef} className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+      <div ref={containerRef} className="flex-1 overflow-y-auto space-y-3 bg-slate-50/50 border border-slate-100/50 rounded-2xl p-5 pr-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
         {logs.map((log, index) => {
-          let typeColor = 'text-slate-400';
+          let typeColor = 'text-slate-500';
           let badgeText = '➜';
           if (log.type === 'system') {
-            typeColor = 'text-blue-400';
+            typeColor = 'text-slate-800 font-bold';
             badgeText = '[SYS]';
           } else if (log.type === 'reasoning') {
-            typeColor = 'text-purple-400';
+            typeColor = 'text-purple-700 font-bold';
             badgeText = '[COG]';
           } else if (log.type === 'warning') {
-            typeColor = 'text-amber-500';
+            typeColor = 'text-amber-700 font-bold';
             badgeText = '[WRN]';
           } else if (log.type === 'success') {
-            typeColor = 'text-emerald-400';
+            typeColor = 'text-emerald-700 font-bold';
             badgeText = '[OK]';
           } else if (log.type === 'info') {
-            typeColor = 'text-slate-300';
+            typeColor = 'text-slate-600';
             badgeText = '[INF]';
           }
 
           return (
-            <div key={index} className="transition-all duration-300 animate-fadeIn">
-              <span className="text-slate-600 select-none mr-2 font-light">[{log.time}]</span>
-              <span className={`${typeColor} font-semibold mr-1.5`}>{badgeText}</span>
-              <span className="text-slate-200">{log.text}</span>
+            <div key={index} className="transition-all duration-300 animate-fadeIn flex items-start gap-1">
+              <span className="text-slate-400 select-none mr-2 font-light shrink-0">[{log.time}]</span>
+              <span className={`${typeColor} shrink-0 mr-1.5`}>{badgeText}</span>
+              <span className="text-slate-700">{log.text}</span>
             </div>
           );
         })}
         {isRunning && currentStep < steps.length && (
-          <div className="flex items-center gap-1 text-slate-500 animate-pulse mt-2 pl-1">
+          <div className="flex items-center gap-1 text-slate-400 animate-pulse mt-2 pl-1 font-mono">
             <span>▋</span>
             <span>Agent reasoning in progress...</span>
           </div>
@@ -201,15 +200,15 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
 
       {/* Final Claim Output panel */}
       {claimJson && (
-        <div className="border-t border-white/[0.08] pt-4 mt-4 bg-slate-950/70 backdrop-blur-xl -mx-6 -mb-6 p-6 shrink-0 animate-slideUp">
+        <div className="border-t border-slate-100 pt-4 mt-4 bg-slate-50/80 backdrop-blur-md -mx-6 -mb-6 p-6 shrink-0 animate-slideUp">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-emerald-400 flex items-center gap-1.5 text-xs font-semibold">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <span className="text-slate-800 flex items-center gap-1.5 text-xs font-bold">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               Claim Ready for Ingestion
             </span>
-            <span className="text-[10px] text-slate-500">ID: {claimJson.claimId}</span>
+            <span className="text-[10px] text-slate-400 font-bold">ID: {claimJson.claimId}</span>
           </div>
-          <div className="bg-black/40 border border-white/[0.06] rounded-xl p-3 text.text-[11px] font-mono text-slate-300 overflow-x-auto max-h-[120px] select-all">
+          <div className="bg-white border border-slate-200/60 rounded-xl p-4 text-[11px] font-mono text-slate-600 overflow-x-auto max-h-[120px] select-all shadow-inner">
             <pre>{JSON.stringify(claimJson, null, 2)}</pre>
           </div>
           <div className="flex gap-3 mt-4">
@@ -223,7 +222,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
                 downloadAnchor.click();
                 downloadAnchor.remove();
               }}
-              className="flex-1 py-2.5 px-3 bg-emerald-400 hover:bg-emerald-300 text-slate-950 rounded-lg font-bold font-mono text-[10px] tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(52,211,153,0.15)]"
+              className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold font-mono text-[10px] tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
             >
               <FileCode className="w-3.5 h-3.5" />
               Export Claim JSON
@@ -233,7 +232,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
                 navigator.clipboard.writeText(JSON.stringify(claimJson, null, 2));
                 alert('Claim JSON copied to clipboard!');
               }}
-              className="py-2.5 px-4 bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 border border-white/[0.08] rounded-lg font-mono text-[10px] tracking-wider uppercase transition-colors cursor-pointer"
+              className="py-3 px-5 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-mono text-[10px] tracking-wider uppercase transition-colors cursor-pointer"
             >
               Copy Raw
             </button>

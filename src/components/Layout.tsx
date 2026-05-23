@@ -127,6 +127,12 @@ export const Layout: React.FC = () => {
     setStep(0);
     setActiveStep(0);
     setIsRunning(true);
+    setIsConsoleOpen(true); // Expand console initially to show logs startup
+
+    // Collapse drawer after 2 seconds so the user can clearly see the visual flowchart progress
+    setTimeout(() => {
+      setIsConsoleOpen(false);
+    }, 2000);
   };
 
   const handleFinishedSimulation = async (claimData: any) => {
@@ -149,19 +155,14 @@ export const Layout: React.FC = () => {
       }
     }
 
-    // Auto-Collapse Telemetry Console & Focus Viewport on Step 4
+    // Auto-Scroll to center on the pipeline details
+    setIsRunning(false);
     setTimeout(() => {
-      setIsRunning(false);
-      setIsConsoleOpen(false); // Collapse drawer
-      
-      // Allow collapsing transition to animate (500ms) then scroll
-      setTimeout(() => {
-        const element = document.getElementById('pipeline-engine');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 600);
-    }, 2200); // 2.2s delay to read compiled claim logs in console
+      const element = document.getElementById('pipeline-engine');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   };
 
   const handleUpdateNote = (newNote: string) => {
@@ -310,13 +311,13 @@ export const Layout: React.FC = () => {
 
         {/* Developer Info & References Bento Deck */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {/* Dr Sucharith Profile Card */}
+          {/* Dr Baddam Sucharith Reddy Profile Card */}
           <div className="bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 ease-out will-change-transform flex flex-col justify-between">
             <div>
               <span className="inline-flex items-center gap-1 text-[8px] font-mono font-bold tracking-wider uppercase text-stone-500 bg-[#fbfaf7] px-2.5 py-0.5 rounded-full border border-stone-200/80 mb-3.5">
                 Developer Profile
               </span>
-              <h4 className="font-serif text-lg font-bold text-stone-900 leading-tight">Dr. Sucharith</h4>
+              <h4 className="font-serif text-lg font-bold text-stone-900 leading-tight">Dr. Baddam Sucharith Reddy</h4>
               <p className="text-[11px] font-sans text-stone-500 mt-1 font-medium">Healthcare Systems Architect specializing in clinical NLP pipelines and autonomous agent auditing networks.</p>
             </div>
             <div className="mt-4">
@@ -365,15 +366,15 @@ export const Layout: React.FC = () => {
               <div className="space-y-1.5 font-mono text-[9px] text-stone-600">
                 <a href="https://github.com/W革新者/AgentClinic" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between hover:text-stone-950 hover:underline">
                   <span>➜ AgentClinic (Dialogue)</span>
-                  <ExternalLink className="w-2.5 h-2.5 text-stone-450" />
+                  <ExternalLink className="w-2.5 h-2.5 text-stone-455" />
                 </a>
                 <a href="https://github.com/vinesmsuic/MedAgentBench" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between hover:text-stone-950 hover:underline">
                   <span>➜ MedAgentBench (EHR)</span>
-                  <ExternalLink className="w-2.5 h-2.5 text-stone-450" />
+                  <ExternalLink className="w-2.5 h-2.5 text-stone-455" />
                 </a>
                 <a href="https://github.com/textviewer/EHRAgent" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between hover:text-stone-950 hover:underline">
                   <span>➜ EHRAgent (Reasoning)</span>
-                  <ExternalLink className="w-2.5 h-2.5 text-stone-450" />
+                  <ExternalLink className="w-2.5 h-2.5 text-stone-455" />
                 </a>
               </div>
             </div>
@@ -388,9 +389,9 @@ export const Layout: React.FC = () => {
       {/* Footer */}
       <footer className="py-12 text-center space-y-2 border-t border-stone-200/80 bg-white/40 mt-12 relative z-10">
         <p className="text-[10px] font-mono text-stone-650">
-          Developed by **Dr. Sucharith** (AI-Assisted) // Copyright © 2026. All rights reserved.
+          Developed by **Dr. Baddam Sucharith Reddy** (AI-Assisted) // Copyright © 2026. All rights reserved.
         </p>
-        <p className="max-w-3xl mx-auto text-[9px] font-sans text-stone-450 leading-relaxed px-6">
+        <p className="max-w-3xl mx-auto text-[9px] font-sans text-stone-455 leading-relaxed px-6">
           <strong>Legal Disclaimer:</strong> This application is a clinical software architecture proof-of-concept. All clinical notes, diagnostics confidence ratios, ICD-10 CM coding recommendations, payer rule assertions, and database logs are strictly simulated datasets designed for portfolio presentation. No Protected Health Information (PHI) is collected, stored, or processed.
         </p>
       </footer>

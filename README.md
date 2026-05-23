@@ -7,7 +7,7 @@
 
 An autonomous, metadata-first **Clinical-to-Billing Intercept Middleware Playground** designed to bridge the structural gap between advanced medical AI reasoning agents and legacy healthcare revenue cycles. 
 
-Developed by **Dr. Sucharith** (AI-Assisted), this platform acts as an automated "smart guardrail" cockpit, intercepting unstructured clinical notes from LLM reasoning models, predicting impressions, transpiling them to standard **ICD-10-CM / CPT codes**, and checking payer policies in real time.
+Developed by **Dr. Baddam Sucharith Reddy** (AI-Assisted), this platform acts as an automated "smart guardrail" cockpit, intercepting unstructured clinical notes from LLM reasoning models, predicting impressions, transpiling them to standard **ICD-10-CM / CPT codes**, and checking payer policies in real time.
 
 ---
 
@@ -160,7 +160,7 @@ This middleware aggregates concepts from these open-source clinical reasoning mo
 
 ## 🎓 Developer & Legal Disclaimer
 
-**Developed by Dr. Sucharith (AI-Assisted)**  
+**Developed by Dr. Baddam Sucharith Reddy (AI-Assisted)**  
 *Contact & Portfolios*: [LinkedIn Profile](https://www.linkedin.com/in/sucharith007/) | [GitHub Profile](https://github.com/safevoice009)
 
 *Legal Notice: This software is a proof-of-concept prototype. All patient profiles, clinical narratives, medical codes, policy checks, and database logs are strictly simulated and for demonstration purposes. It should not be used as medical advice or in real production healthcare environments.*

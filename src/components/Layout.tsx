@@ -44,6 +44,7 @@ export const Layout: React.FC = () => {
   const [step, setStep] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [claimJson, setClaimJson] = useState<any | null>(null);
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false);
 
   // Sync selected patient from patients array if modified
   useEffect(() => {
@@ -142,16 +143,46 @@ export const Layout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfaf7] text-stone-900 flex flex-col font-sans select-none pb-24">
+    <div id="overview" className="min-h-screen bg-[#fbfaf7] text-stone-900 flex flex-col font-sans select-none pb-24 scroll-smooth">
       
       {/* Floating navigation pill menu (matching reference portfolio site) */}
       <div className="w-full flex justify-center pt-8 px-4 relative z-40">
         <nav className="bg-white/90 backdrop-blur-md border border-[#eae6df] px-8 py-3 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-8 items-center text-xs font-bold uppercase tracking-widest text-stone-500">
-          <span className="hover:text-stone-900 transition-colors cursor-pointer">Overview</span>
-          <span className="hover:text-stone-900 transition-colors cursor-pointer text-stone-900 font-extrabold border-b border-stone-900 pb-0.5">Clinical Playground</span>
-          <span className="hover:text-stone-900 transition-colors cursor-pointer">Capabilities</span>
-          <span className="hover:text-stone-900 transition-colors cursor-pointer">Telemetry</span>
-          <span className="hover:text-stone-900 transition-colors cursor-pointer">Ecosystem</span>
+          <button 
+            onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} 
+            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+          >
+            Overview
+          </button>
+          <button 
+            onClick={() => document.getElementById('patient-intake')?.scrollIntoView({ behavior: 'smooth' })} 
+            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+          >
+            Patient Intake
+          </button>
+          <button 
+            onClick={() => document.getElementById('pipeline-engine')?.scrollIntoView({ behavior: 'smooth' })} 
+            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+          >
+            Pipeline Engine
+          </button>
+          <button 
+            onClick={() => {
+              setIsConsoleOpen(true);
+              setTimeout(() => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+              }, 100);
+            }} 
+            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+          >
+            Developer Logs
+          </button>
+          <button 
+            onClick={() => document.getElementById('ecosystem')?.scrollIntoView({ behavior: 'smooth' })} 
+            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+          >
+            Ecosystem
+          </button>
         </nav>
       </div>
 
@@ -182,7 +213,7 @@ export const Layout: React.FC = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Patient Selector Bento Panel (col-span-2) */}
-          <div className="lg:col-span-2 bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm space-y-4">
+          <div id="patient-intake" className="lg:col-span-2 bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm space-y-4 scroll-mt-24">
             <div className="flex items-center gap-2">
               <UserCheck className="w-4 h-4 text-stone-600" />
               <span className="text-[10px] font-mono uppercase tracking-widest text-stone-400 font-bold">Step 1: Patient Ingestion Hub</span>
@@ -202,7 +233,7 @@ export const Layout: React.FC = () => {
                     selectedPatient.id === pat.id
                       ? 'bg-stone-900 border-stone-900 text-[#fbfaf7] shadow-md shadow-stone-900/10'
                       : 'bg-white border-[#eae6df] text-stone-450 hover:border-stone-400 hover:text-stone-850 shadow-sm'
-                  } ${isRunning ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
+                  } ${isRunning ? 'pointer-events-none' : 'cursor-pointer'}`}
                 >
                   <span className="text-[8px] font-bold block uppercase tracking-wider opacity-60">{pat.id}</span>
                   <span className="text-xs font-extrabold truncate block font-sans">{pat.name.split(' ')[0]}</span>
@@ -223,18 +254,20 @@ export const Layout: React.FC = () => {
         </div>
 
         {/* Central Pipeline Interactive Play Area */}
-        <PipelineStepper
-          patient={selectedPatient}
-          step={step}
-          activeStep={activeStep}
-          setActiveStep={setActiveStep}
-          isRunning={isRunning}
-          onUpdateNote={handleUpdateNote}
-          claimJson={claimJson}
-        />
+        <div id="pipeline-engine" className="scroll-mt-24">
+          <PipelineStepper
+            patient={selectedPatient}
+            step={step}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            isRunning={isRunning}
+            onUpdateNote={handleUpdateNote}
+            claimJson={claimJson}
+          />
+        </div>
 
         {/* Informative Bento footer section */}
-        <div className="bg-white border border-[#eae6df] rounded-[32px] p-6 flex gap-4 text-xs text-stone-500 shadow-sm max-w-4xl mx-auto">
+        <div id="ecosystem" className="bg-white border border-[#eae6df] rounded-[32px] p-6 flex gap-4 text-xs text-stone-500 shadow-sm max-w-4xl mx-auto scroll-mt-24">
           <AlertCircle className="w-5 h-5 text-stone-400 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
             <strong>Architecture Notice:</strong> This clinical middleware operates by intercepting unstructured clinical text (EHR logs) generated by reasoning systems (like <code className="bg-stone-100 px-1 py-0.5 rounded font-mono text-[10px]">AgentClinic</code>). It runs automated ICD-10 transpilation audits, maps corresponding CPT procedure parameters, and verifies insurance payer compliance guidelines before shipping clean claims records.
@@ -254,6 +287,8 @@ export const Layout: React.FC = () => {
         isRunning={isRunning}
         onFinished={handleFinishedSimulation}
         onStepChange={setStep}
+        isOpen={isConsoleOpen}
+        setIsOpen={setIsConsoleOpen}
       />
       
     </div>

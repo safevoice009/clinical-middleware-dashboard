@@ -23,18 +23,21 @@ interface TerminalConsoleProps {
   isRunning: boolean;
   onFinished: (claimData: any) => void;
   onStepChange: (step: number) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
   patient,
   isRunning,
   onFinished,
-  onStepChange
+  onStepChange,
+  isOpen,
+  setIsOpen
 }) => {
   const [logs, setLogs] = useState<{ time: string; text: string; type: 'system' | 'reasoning' | 'warning' | 'success' | 'info' }[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [claimJson, setClaimJson] = useState<any | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getTimestamp = () => {
@@ -115,7 +118,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
     if (isRunning) {
       setIsOpen(true);
     }
-  }, [isRunning]);
+  }, [isRunning, setIsOpen]);
 
   // Advance simulation steps
   useEffect(() => {
@@ -204,7 +207,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
           <div className="px-8 pb-6 space-y-4">
             <div 
               ref={containerRef} 
-              className="h-[230px] overflow-y-auto space-y-2 bg-stone-950 border border-stone-850 rounded-2xl p-5 pr-3 font-mono text-[11px] leading-relaxed text-stone-350 scrollbar-thin scrollbar-thumb-stone-850 scrollbar-track-transparent select-text"
+              className="h-[230px] overflow-y-auto space-y-2.5 bg-stone-950 border border-stone-850 rounded-2xl p-5 pr-3 font-mono text-[11px] leading-relaxed scrollbar-thin scrollbar-thumb-stone-850 scrollbar-track-transparent select-text"
             >
               {logs.length === 0 ? (
                 <p className="text-stone-500 italic my-auto">
@@ -212,43 +215,43 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
                 </p>
               ) : (
                 logs.map((log, index) => {
-                  let typeColor = 'text-stone-400';
+                  let typeColor = 'text-stone-300';
                   let badgeText = '➜';
                   let badgeColor = 'text-stone-500';
 
                   if (log.type === 'system') {
-                    typeColor = 'text-stone-200 font-bold';
+                    typeColor = 'text-stone-100 font-bold';
                     badgeText = '[SYS]';
-                    badgeColor = 'text-stone-400';
+                    badgeColor = 'text-cyan-400 font-extrabold';
                   } else if (log.type === 'reasoning') {
-                    typeColor = 'text-[#d6c7b3] font-bold';
+                    typeColor = 'text-fuchsia-100 font-bold';
                     badgeText = '[COG]';
-                    badgeColor = 'text-[#a89984]';
+                    badgeColor = 'text-fuchsia-400 font-extrabold';
                   } else if (log.type === 'warning') {
-                    typeColor = 'text-amber-300 font-bold';
+                    typeColor = 'text-amber-100 font-bold';
                     badgeText = '[WRN]';
-                    badgeColor = 'text-amber-500';
+                    badgeColor = 'text-amber-400 font-extrabold';
                   } else if (log.type === 'success') {
-                    typeColor = 'text-emerald-300 font-bold';
+                    typeColor = 'text-emerald-100 font-bold';
                     badgeText = '[ OK]';
-                    badgeColor = 'text-emerald-500';
+                    badgeColor = 'text-emerald-450 font-extrabold';
                   } else if (log.type === 'info') {
-                    typeColor = 'text-stone-350';
+                    typeColor = 'text-sky-100';
                     badgeText = '[INF]';
-                    badgeColor = 'text-stone-500';
+                    badgeColor = 'text-sky-400 font-extrabold';
                   }
 
                   return (
                     <div key={index} className="flex items-start gap-1">
-                      <span className="text-stone-600 select-none mr-2 shrink-0">[{log.time}]</span>
-                      <span className={`${badgeColor} font-bold shrink-0 mr-2`}>{badgeText}</span>
+                      <span className="text-stone-500 select-none mr-2.5 shrink-0">[{log.time}]</span>
+                      <span className={`${badgeColor} shrink-0 mr-2`}>{badgeText}</span>
                       <span className={typeColor}>{log.text}</span>
                     </div>
                   );
                 })
               )}
               {isRunning && currentStep < steps.length && (
-                <div className="flex items-center gap-1.5 text-stone-500 animate-pulse mt-3 pl-1 font-mono">
+                <div className="flex items-center gap-1.5 text-stone-300 animate-pulse mt-3 pl-1 font-mono">
                   <span>▋</span>
                   <span>Executing autonomous routing step...</span>
                 </div>

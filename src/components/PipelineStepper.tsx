@@ -188,7 +188,7 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
                   value={editedNote}
                   onChange={(e) => setEditedNote(e.target.value)}
                   disabled={isRunning}
-                  className="w-full h-48 bg-stone-50 border border-stone-200 rounded-2xl p-4 font-mono text-xs leading-relaxed text-stone-900 focus:outline-none focus:ring-1 focus:ring-stone-500 focus:border-stone-500 transition-all select-text"
+                  className="w-full h-48 bg-stone-50 border border-stone-200 rounded-2xl p-4 font-mono text-xs leading-relaxed text-stone-900 focus:outline-none focus:ring-1 focus:ring-stone-500 focus:border-stone-500 transition-all select-text disabled:opacity-100 disabled:text-stone-800 disabled:bg-stone-50/80"
                 />
                 <button
                   onClick={() => onUpdateNote(editedNote)}

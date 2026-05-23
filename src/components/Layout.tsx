@@ -265,8 +265,8 @@ export const Layout: React.FC = () => {
     <div id="overview" className="min-h-screen bg-[#fbfaf7] text-stone-900 flex flex-col font-sans select-none pb-32 scroll-smooth">
       
       {/* Floating navigation pill menu */}
-      <div className="w-full flex justify-center pt-8 px-4 relative z-40 max-w-full">
-        <nav className="bg-white/95 backdrop-blur-md border border-[#eae6df] px-4 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-1.5 md:gap-2 items-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-stone-500 overflow-x-auto max-w-full scrollbar-none whitespace-nowrap">
+      <div className="fixed top-4 left-0 right-0 z-45 flex justify-center px-4 pointer-events-none max-w-full">
+        <nav className="bg-white/95 backdrop-blur-md border border-[#eae6df] px-4 py-2 rounded-full shadow-[0_12px_40px_rgba(28,25,23,0.045)] flex gap-1.5 md:gap-2 items-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-stone-500 overflow-x-auto max-w-full scrollbar-none whitespace-nowrap pointer-events-auto">
           <button 
             onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} 
             className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
@@ -312,7 +312,7 @@ export const Layout: React.FC = () => {
       </div>
 
       {/* Main Page Header */}
-      <div className="max-w-5xl w-full mx-auto px-6 pt-12 pb-6 text-center relative z-10">
+      <div className="max-w-5xl w-full mx-auto px-6 pt-24 md:pt-28 pb-6 text-center relative z-10">
         <h1 className="font-serif text-4xl md:text-5xl font-semibold text-stone-955 tracking-tight mb-3">
           Clinical Systems Architecture
         </h1>

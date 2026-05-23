@@ -20,7 +20,7 @@ interface PipelineProps {
 
 export const AgentCard: React.FC<PipelineProps> = ({ pipeline, onTrigger, isRunning }) => {
   return (
-    <div className="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-6 hover:border-emerald-500/30 transition-all duration-500 shadow-2xl relative overflow-hidden group">
+    <div className="bg-slate-950/65 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6 hover:border-emerald-500/30 transition-all duration-500 shadow-[0_25px_60px_rgba(0,0,0,0.65)] relative overflow-hidden group">
       {/* Visual background gradient decoration */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/10 transition-all duration-500"></div>
 
@@ -48,7 +48,7 @@ export const AgentCard: React.FC<PipelineProps> = ({ pipeline, onTrigger, isRunn
         {pipeline.description || 'Automated clinical logic engine executing EHR analysis and billing audits.'}
       </p>
       
-      <div className="grid grid-cols-2 gap-4 my-6 bg-slate-950/60 p-4 rounded-lg border border-slate-800/50 font-mono text-xs text-slate-300 relative z-10">
+      <div className="grid grid-cols-2 gap-4 my-6 bg-black/30 p-4 rounded-xl border border-white/[0.06] font-mono text-xs text-slate-300 relative z-10">
         <div>
           <span className="text-slate-500 block mb-1">Clinical Engine:</span> 
           <span className="text-slate-200 font-semibold flex items-center gap-1">
@@ -63,7 +63,7 @@ export const AgentCard: React.FC<PipelineProps> = ({ pipeline, onTrigger, isRunn
             {pipeline.completion_estimate_mins}s (Simulated)
           </span>
         </div>
-        <div className="col-span-2 pt-2 border-t border-slate-800/40">
+        <div className="col-span-2 pt-2 border-t border-white/[0.06]">
           <span className="text-slate-500 block mb-1">Compliance Guardrail:</span>
           <span className="flex items-center gap-1.5">
             {pipeline.icd10_validation_supported ? (
@@ -84,10 +84,10 @@ export const AgentCard: React.FC<PipelineProps> = ({ pipeline, onTrigger, isRunn
       <button
         onClick={onTrigger}
         disabled={isRunning}
-        className={`w-full py-3.5 px-4 rounded-lg font-mono text-xs font-semibold tracking-wider uppercase transition-all duration-300 relative z-10 flex items-center justify-center gap-2 border ${
+        className={`w-full py-3.5 px-4 rounded-xl font-mono text-xs font-semibold tracking-wider uppercase transition-all duration-300 relative z-10 flex items-center justify-center gap-2 border cursor-pointer ${
           isRunning
-            ? 'bg-slate-850 text-slate-500 border-slate-800 cursor-not-allowed'
-            : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:-translate-y-[1px]'
+            ? 'bg-slate-900/60 text-slate-500 border-white/[0.04] cursor-not-allowed'
+            : 'bg-emerald-400 hover:bg-emerald-300 text-slate-950 border-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.15)] hover:shadow-[0_0_25px_rgba(52,211,153,0.3)] hover:-translate-y-[1px]'
         }`}
       >
         {isRunning ? (

@@ -62,6 +62,72 @@ export const Layout: React.FC = () => {
   const [claimJson, setClaimJson] = useState<any | null>(null);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
   const [isTourOpen, setIsTourOpen] = useState(false);
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [keysTyped, setKeysTyped] = useState('');
+  const [isTampered, setIsTampered] = useState(false);
+
+  // 1. Console Signature Log
+  useEffect(() => {
+    console.log(
+      "%c🏥 CLINICAL MIDDLEWARE SYSTEM PLAYGROUND %c\n" +
+      "Designed & Developed by Dr. Baddam Sucharith Reddy\n" +
+      "Role: Clinical Systems Architect / Health Tech Innovator\n" +
+      "Credits: AI-Assisted Architecture (Antigravity)\n" +
+      "License: MIT License (c) 2026 Dr. Baddam Sucharith Reddy. All rights reserved.\n" +
+      "LinkedIn: https://www.linkedin.com/in/sucharith007/\n" +
+      "GitHub: https://github.com/safevoice009\n" +
+      "Signature Verification Key: e4c99557bc1fe77b42ff2b67cdb9c24efb48197779de0927c7f3e825a0728c2e",
+      "color: #b45309; font-weight: 800; font-size: 13px; font-family: sans-serif; background-color: #fef3c7; padding: 6px 12px; border-radius: 8px; border: 1px solid #f59e0b; margin-bottom: 6px; display: inline-block;",
+      "color: #44403c; font-weight: 550; font-size: 11px; line-height: 1.6; font-family: monospace;"
+    );
+  }, []);
+
+  // 2. Keyboard Easter Egg Sequence Detector
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' || 
+        target.isContentEditable
+      ) {
+        return;
+      }
+      const newKeys = (keysTyped + e.key.toLowerCase()).slice(-20);
+      setKeysTyped(newKeys);
+      if (newKeys.includes('sucharith')) {
+        setShowEasterEgg(true);
+        setKeysTyped('');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [keysTyped]);
+
+  // 3. DOM Integrity & Anti-Tamper Check
+  useEffect(() => {
+    const checkIntegrity = () => {
+      const bodyText = document.body.innerText || '';
+      const hasAuthor = bodyText.includes('Dr. Baddam Sucharith Reddy') || bodyText.includes('Sucharith');
+      
+      const footerElement = document.querySelector('footer');
+      const footerHasName = footerElement ? (footerElement.innerText.includes('Sucharith') || footerElement.innerText.includes('Dr. Baddam')) : false;
+
+      if (!hasAuthor || !footerHasName) {
+        setIsTampered(true);
+      } else {
+        setIsTampered(false);
+      }
+    };
+
+    const initialTimer = setTimeout(checkIntegrity, 3000);
+    const interval = setInterval(checkIntegrity, 4000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+    };
+  }, []);
 
   // Auto-start tour for new visitors
   useEffect(() => {
@@ -450,6 +516,113 @@ export const Layout: React.FC = () => {
         activeStep={activeStep}
         setActiveStep={setActiveStep}
       />
+
+      {/* Verifiable Authorship Certificate Modal (Easter Egg) */}
+      {showEasterEgg && (
+        <div 
+          className="fixed inset-0 bg-stone-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-all duration-300 ease-out"
+          onClick={() => setShowEasterEgg(false)}
+        >
+          <div 
+            className="bg-[#fbfaf7] border border-amber-200 rounded-[32px] max-w-md w-full p-8 shadow-2xl relative overflow-hidden transition-all transform scale-100 flex flex-col gap-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Sand-gold aesthetic design accent line */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-200 via-amber-500 to-amber-200" />
+            
+            <div className="flex flex-col items-center text-center space-y-2.5 pb-2 border-b border-stone-200/60">
+              <div className="w-12 h-12 bg-amber-50 border border-amber-200 rounded-full flex items-center justify-center text-amber-700 animate-pulse">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="font-serif text-xl font-bold text-stone-900 leading-tight">
+                Authorship Verified
+              </h3>
+              <p className="text-[9px] font-mono tracking-wider uppercase text-stone-400 font-bold">
+                Clinical Middleware Integrity Registry
+              </p>
+            </div>
+
+            <div className="space-y-3 text-xs text-stone-600">
+              <div className="flex justify-between items-center py-1">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-stone-400">Architect</span>
+                <span className="font-sans font-extrabold text-stone-900">Dr. Baddam Sucharith Reddy</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-stone-400">Credentials</span>
+                <span className="font-sans font-semibold text-stone-900">Physician & Health Tech Innovator</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-stone-400">System Engine</span>
+                <span className="font-sans font-semibold text-stone-900">Autonomous EHR Intercept Cockpit</span>
+              </div>
+              <div className="flex flex-col gap-1 py-1">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-stone-400">Integrity Checksum</span>
+                <span className="font-mono text-[9px] bg-stone-150/60 px-2.5 py-1.5 rounded text-stone-750 select-all break-all leading-normal border border-stone-200/50">
+                  sha256-e4c99557bc1fe77b42ff2b67cdb9c24efb48197779de0927c7f3e825a0728c2e
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-stone-400">Build Source</span>
+                <span className="font-sans font-semibold text-emerald-800 bg-emerald-50 border border-emerald-250/30 px-2.5 py-0.5 rounded-full text-[9px] font-bold">
+                  AI-Assisted (Antigravity)
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-col gap-3.5 border-t border-stone-200/60">
+              <div className="flex justify-center gap-5 text-[9px] font-mono font-bold uppercase tracking-wider">
+                <a 
+                  href="https://www.linkedin.com/in/sucharith007/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-stone-500 hover:text-stone-950 underline flex items-center gap-1.5"
+                >
+                  LinkedIn Profile ➜
+                </a>
+                <a 
+                  href="https://github.com/safevoice009" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-stone-500 hover:text-stone-950 underline flex items-center gap-1.5"
+                >
+                  GitHub Profile ➜
+                </a>
+              </div>
+              <button
+                onClick={() => setShowEasterEgg(false)}
+                className="w-full py-2.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl font-mono text-[10px] font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer active:scale-95 hover:scale-[1.02]"
+              >
+                Dismiss Certificate
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating DOM Anti-Tamper Security Banner */}
+      {isTampered && (
+        <div className="fixed bottom-6 right-6 z-55 max-w-xs bg-amber-50 border border-amber-300 rounded-[24px] p-5 shadow-xl shadow-amber-900/10 animate-bounce flex gap-3 text-stone-900 max-w-[280px]">
+          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h5 className="font-mono text-[9px] font-extrabold uppercase tracking-wider text-amber-800">
+              Integrity Check Failed
+            </h5>
+            <p className="text-[9px] font-sans text-stone-600 leading-normal font-semibold">
+              Authorship credit has been modified. This codebase was engineered by <strong>Dr. Baddam Sucharith Reddy</strong> (AI-Assisted).
+            </p>
+            <div className="pt-1">
+              <a 
+                href="https://www.linkedin.com/in/sucharith007/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[9px] font-mono font-bold text-amber-850 hover:underline flex items-center gap-1"
+              >
+                LinkedIn Verification ➜
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
       
     </div>
   );

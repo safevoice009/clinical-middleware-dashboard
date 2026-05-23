@@ -6,7 +6,10 @@ import { AgentCard } from './AgentCard';
 import { PipelineStepper } from './PipelineStepper';
 import { supabase } from '../lib/supabase';
 import mockPatients from '../data/mockPatientData.json';
-import { Database, ShieldCheck, Play, UserCheck, AlertCircle, Heart } from 'lucide-react';
+import { 
+  Database, ShieldCheck, Play, UserCheck, AlertCircle, 
+  ExternalLink, FileText, Info 
+} from 'lucide-react';
 
 interface Patient {
   id: string;
@@ -33,6 +36,18 @@ interface Pipeline {
   completion_estimate_mins: number;
   community_trust_score: number;
 }
+
+const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={props.className}>
+    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+  </svg>
+);
+
+const GitHubIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={props.className}>
+    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+  </svg>
+);
 
 export const Layout: React.FC = () => {
   const [patients, setPatients] = useState<Patient[]>(mockPatients as Patient[]);
@@ -115,7 +130,6 @@ export const Layout: React.FC = () => {
   };
 
   const handleFinishedSimulation = async (claimData: any) => {
-    setIsRunning(false);
     setClaimJson(claimData);
     setClaimsCount((prev) => prev + 1);
 
@@ -134,6 +148,20 @@ export const Layout: React.FC = () => {
         console.error('Supabase telemetry logging error:', err);
       }
     }
+
+    // Auto-Collapse Telemetry Console & Focus Viewport on Step 4
+    setTimeout(() => {
+      setIsRunning(false);
+      setIsConsoleOpen(false); // Collapse drawer
+      
+      // Allow collapsing transition to animate (500ms) then scroll
+      setTimeout(() => {
+        const element = document.getElementById('pipeline-engine');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 600);
+    }, 2200); // 2.2s delay to read compiled claim logs in console
   };
 
   const handleUpdateNote = (newNote: string) => {
@@ -143,26 +171,26 @@ export const Layout: React.FC = () => {
   };
 
   return (
-    <div id="overview" className="min-h-screen bg-[#fbfaf7] text-stone-900 flex flex-col font-sans select-none pb-24 scroll-smooth">
+    <div id="overview" className="min-h-screen bg-[#fbfaf7] text-stone-900 flex flex-col font-sans select-none pb-32 scroll-smooth">
       
-      {/* Floating navigation pill menu (matching reference portfolio site) */}
+      {/* Floating navigation pill menu */}
       <div className="w-full flex justify-center pt-8 px-4 relative z-40">
-        <nav className="bg-white/90 backdrop-blur-md border border-[#eae6df] px-8 py-3 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-8 items-center text-xs font-bold uppercase tracking-widest text-stone-500">
+        <nav className="bg-white/95 backdrop-blur-md border border-[#eae6df] px-4 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-2 items-center text-xs font-bold uppercase tracking-widest text-stone-500">
           <button 
             onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} 
-            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+            className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Overview
           </button>
           <button 
             onClick={() => document.getElementById('patient-intake')?.scrollIntoView({ behavior: 'smooth' })} 
-            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+            className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Patient Intake
           </button>
           <button 
             onClick={() => document.getElementById('pipeline-engine')?.scrollIntoView({ behavior: 'smooth' })} 
-            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+            className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Pipeline Engine
           </button>
@@ -173,13 +201,13 @@ export const Layout: React.FC = () => {
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
               }, 100);
             }} 
-            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+            className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Developer Logs
           </button>
           <button 
             onClick={() => document.getElementById('ecosystem')?.scrollIntoView({ behavior: 'smooth' })} 
-            className="hover:text-stone-900 transition-colors cursor-pointer font-extrabold focus:outline-none"
+            className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"
           >
             Ecosystem
           </button>
@@ -188,7 +216,7 @@ export const Layout: React.FC = () => {
 
       {/* Main Page Header */}
       <div className="max-w-5xl w-full mx-auto px-6 pt-12 pb-6 text-center relative z-10">
-        <h1 className="font-serif text-4xl md:text-5xl font-semibold text-stone-950 tracking-tight mb-3">
+        <h1 className="font-serif text-4xl md:text-5xl font-semibold text-stone-955 tracking-tight mb-3">
           Clinical Systems Architecture
         </h1>
         <p className="text-xs font-mono tracking-widest text-stone-400 uppercase font-bold">
@@ -198,7 +226,7 @@ export const Layout: React.FC = () => {
         {/* Telemetry status bar */}
         <div className="flex justify-center gap-4 mt-6 text-[10px] font-mono text-stone-500">
           <div className="flex items-center gap-1.5 bg-white border border-[#eae6df] px-3.5 py-1.5 rounded-full shadow-sm">
-            <Database className={`w-3.5 h-3.5 ${isDbLoaded ? 'text-emerald-700' : 'text-stone-400'}`} />
+            <Database className={`w-3.5 h-3.5 ${isDbLoaded ? 'text-emerald-700' : 'text-stone-450'}`} />
             <span>Database: <span className={isDbLoaded ? 'text-emerald-700 font-extrabold' : 'text-stone-500'}>{isDbLoaded ? 'Supabase Connected' : 'Offline Mode'}</span></span>
           </div>
           <div className="flex items-center gap-1.5 bg-white border border-[#eae6df] px-3.5 py-1.5 rounded-full shadow-sm">
@@ -208,12 +236,15 @@ export const Layout: React.FC = () => {
         </div>
       </div>
 
-      {/* Bento Grid: Patient Selector & Middleware Control */}
+      {/* Bento Grid: Patient Ingest & Middleware Control */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-6 py-6 space-y-8 relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Patient Selector Bento Panel (col-span-2) */}
-          <div id="patient-intake" className="lg:col-span-2 bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm space-y-4 scroll-mt-24">
+          {/* Patient Selector Bento Panel */}
+          <div 
+            id="patient-intake" 
+            className="lg:col-span-2 bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm space-y-4 hover:shadow-md hover:-translate-y-1 transition-all duration-500 ease-out will-change-transform scroll-mt-24"
+          >
             <div className="flex items-center gap-2">
               <UserCheck className="w-4 h-4 text-stone-600" />
               <span className="text-[10px] font-mono uppercase tracking-widest text-stone-400 font-bold">Step 1: Patient Ingestion Hub</span>
@@ -229,10 +260,10 @@ export const Layout: React.FC = () => {
                     }
                   }}
                   disabled={isRunning}
-                  className={`py-4 px-4 rounded-[20px] border font-mono text-left transition-all duration-300 flex flex-col justify-between h-24 ${
+                  className={`py-4 px-4 rounded-[20px] border font-mono text-left shadow-sm flex flex-col justify-between h-24 will-change-transform transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] ${
                     selectedPatient.id === pat.id
                       ? 'bg-stone-900 border-stone-900 text-[#fbfaf7] shadow-md shadow-stone-900/10'
-                      : 'bg-white border-[#eae6df] text-stone-450 hover:border-stone-400 hover:text-stone-850 shadow-sm'
+                      : 'bg-white border-[#eae6df] text-stone-600 hover:border-stone-400 hover:text-stone-950 hover:bg-stone-50/20'
                   } ${isRunning ? 'pointer-events-none' : 'cursor-pointer'}`}
                 >
                   <span className="text-[8px] font-bold block uppercase tracking-wider opacity-60">{pat.id}</span>
@@ -266,19 +297,102 @@ export const Layout: React.FC = () => {
           />
         </div>
 
-        {/* Informative Bento footer section */}
-        <div id="ecosystem" className="bg-white border border-[#eae6df] rounded-[32px] p-6 flex gap-4 text-xs text-stone-500 shadow-sm max-w-4xl mx-auto scroll-mt-24">
-          <AlertCircle className="w-5 h-5 text-stone-400 shrink-0 mt-0.5" />
+        {/* Informative Bento Section */}
+        <div 
+          id="ecosystem" 
+          className="bg-white border border-[#eae6df] rounded-[32px] p-6 flex gap-4 text-xs text-stone-600 shadow-sm max-w-4xl mx-auto hover:shadow-md hover:-translate-y-0.5 transition-all duration-500 ease-out will-change-transform scroll-mt-24"
+        >
+          <AlertCircle className="w-5 h-5 text-stone-550 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
             <strong>Architecture Notice:</strong> This clinical middleware operates by intercepting unstructured clinical text (EHR logs) generated by reasoning systems (like <code className="bg-stone-100 px-1 py-0.5 rounded font-mono text-[10px]">AgentClinic</code>). It runs automated ICD-10 transpilation audits, maps corresponding CPT procedure parameters, and verifies insurance payer compliance guidelines before shipping clean claims records.
           </p>
         </div>
 
+        {/* Developer Info & References Bento Deck */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {/* Dr Sucharith Profile Card */}
+          <div className="bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 ease-out will-change-transform flex flex-col justify-between">
+            <div>
+              <span className="inline-flex items-center gap-1 text-[8px] font-mono font-bold tracking-wider uppercase text-stone-500 bg-[#fbfaf7] px-2.5 py-0.5 rounded-full border border-stone-200/80 mb-3.5">
+                Developer Profile
+              </span>
+              <h4 className="font-serif text-lg font-bold text-stone-900 leading-tight">Dr. Sucharith</h4>
+              <p className="text-[11px] font-sans text-stone-500 mt-1 font-medium">Healthcare Systems Architect specializing in clinical NLP pipelines and autonomous agent auditing networks.</p>
+            </div>
+            <div className="mt-4">
+              <a 
+                href="https://www.linkedin.com/in/sucharith007/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-3 bg-stone-900 hover:bg-stone-855 text-white rounded-xl font-mono text-[9px] font-bold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer hover:scale-[1.03] active:scale-[0.98]"
+              >
+                <LinkedInIcon className="w-3.5 h-3.5" />
+                LinkedIn Profile
+              </a>
+            </div>
+          </div>
+
+          {/* GitHub Project Codebase Card */}
+          <div className="bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 ease-out will-change-transform flex flex-col justify-between">
+            <div>
+              <span className="inline-flex items-center gap-1 text-[8px] font-mono font-bold tracking-wider uppercase text-stone-500 bg-[#fbfaf7] px-2.5 py-0.5 rounded-full border border-stone-200/80 mb-3.5">
+                Code Repository
+              </span>
+              <h4 className="font-serif text-lg font-bold text-stone-900 leading-tight">Project Source</h4>
+              <p className="text-[11px] font-sans text-stone-500 mt-1 font-medium">Read the production-ready code blocks, database migration DDLs, and automation pipelines deployed for this sandbox.</p>
+            </div>
+            <div className="mt-4">
+              <a 
+                href="https://github.com/safevoice009/clinical-middleware-dashboard" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-3 bg-white border border-stone-200 hover:bg-stone-50 text-stone-700 rounded-xl font-mono text-[9px] font-bold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer hover:scale-[1.03] active:scale-[0.98]"
+              >
+                <GitHubIcon className="w-3.5 h-3.5 text-stone-650" />
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+
+          {/* Research References Card */}
+          <div className="bg-white border border-[#eae6df] rounded-[32px] p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 ease-out will-change-transform flex flex-col justify-between">
+            <div className="space-y-3">
+              <span className="inline-flex items-center gap-1 text-[8px] font-mono font-bold tracking-wider uppercase text-stone-500 bg-[#fbfaf7] px-2.5 py-0.5 rounded-full border border-stone-200/80">
+                Ecosystem References
+              </span>
+              <h4 className="font-serif text-lg font-bold text-stone-900 leading-tight">Research Frameworks</h4>
+              
+              <div className="space-y-1.5 font-mono text-[9px] text-stone-600">
+                <a href="https://github.com/W革新者/AgentClinic" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between hover:text-stone-950 hover:underline">
+                  <span>➜ AgentClinic (Dialogue)</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-stone-450" />
+                </a>
+                <a href="https://github.com/vinesmsuic/MedAgentBench" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between hover:text-stone-950 hover:underline">
+                  <span>➜ MedAgentBench (EHR)</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-stone-450" />
+                </a>
+                <a href="https://github.com/textviewer/EHRAgent" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between hover:text-stone-950 hover:underline">
+                  <span>➜ EHRAgent (Reasoning)</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-stone-450" />
+                </a>
+              </div>
+            </div>
+            <div className="text-[8px] font-mono text-stone-400 pt-2 border-t border-stone-100 uppercase tracking-widest text-center mt-3">
+              Open-Source Ingestions
+            </div>
+          </div>
+        </div>
+
       </main>
 
       {/* Footer */}
-      <footer className="py-12 text-center text-[10px] font-mono text-stone-400">
-        Clinical Systems Playground // Compiled by Antigravity Agent // Next.js & Supabase
+      <footer className="py-12 text-center space-y-2 border-t border-stone-200/80 bg-white/40 mt-12 relative z-10">
+        <p className="text-[10px] font-mono text-stone-650">
+          Developed by **Dr. Sucharith** (AI-Assisted) // Copyright © 2026. All rights reserved.
+        </p>
+        <p className="max-w-3xl mx-auto text-[9px] font-sans text-stone-450 leading-relaxed px-6">
+          <strong>Legal Disclaimer:</strong> This application is a clinical software architecture proof-of-concept. All clinical notes, diagnostics confidence ratios, ICD-10 CM coding recommendations, payer rule assertions, and database logs are strictly simulated datasets designed for portfolio presentation. No Protected Health Information (PHI) is collected, stored, or processed.
+        </p>
       </footer>
 
       {/* Collapsible Telemetry Terminal Drawer */}

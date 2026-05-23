@@ -177,11 +177,11 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
         >
           <div className="flex items-center gap-3">
             <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-stone-600"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-stone-700"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-stone-800"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
             </div>
-            <span className="text-[#fbfaf7] font-extrabold flex items-center gap-2 pl-4 border-l border-stone-800 tracking-tight font-mono text-xs uppercase">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-stone-200 to-emerald-400 font-extrabold flex items-center gap-2 pl-4 border-l border-stone-800 tracking-tight font-mono text-xs uppercase">
               <Terminal className="w-4 h-4 text-stone-400" />
               Developer Telemetry Logs
             </span>
@@ -243,7 +243,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
 
                   return (
                     <div key={index} className="flex items-start gap-1">
-                      <span className="text-stone-500 select-none mr-2.5 shrink-0">[{log.time}]</span>
+                      <span className="text-[#d6c7b3] font-bold select-none mr-2.5 shrink-0">[{log.time}]</span>
                       <span className={`${badgeColor} shrink-0 mr-2`}>{badgeText}</span>
                       <span className={typeColor}>{log.text}</span>
                     </div>
@@ -251,7 +251,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
                 })
               )}
               {isRunning && currentStep < steps.length && (
-                <div className="flex items-center gap-1.5 text-stone-300 animate-pulse mt-3 pl-1 font-mono">
+                <div className="flex items-center gap-1.5 text-stone-350 animate-pulse mt-3 pl-1 font-mono">
                   <span>▋</span>
                   <span>Executing autonomous routing step...</span>
                 </div>

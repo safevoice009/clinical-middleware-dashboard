@@ -172,8 +172,9 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
       >
         {/* Toggle Header Panel */}
         <button 
+          id="console-drawer-header"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between px-8 py-5 hover:bg-stone-850/50 transition-colors cursor-pointer text-left focus:outline-none"
+          className="w-full flex items-center justify-between px-8 py-5 hover:bg-stone-855/50 transition-colors cursor-pointer text-left focus:outline-none"
         >
           <div className="flex items-center gap-3">
             <div className="flex gap-1.5">

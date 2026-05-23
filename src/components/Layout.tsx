@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { TerminalConsole } from './TerminalConsole';
 import { AgentCard } from './AgentCard';
 import { PipelineStepper } from './PipelineStepper';
+import { OnboardingTour } from './OnboardingTour';
 import { supabase } from '../lib/supabase';
 import mockPatients from '../data/mockPatientData.json';
 import { 
@@ -60,6 +61,19 @@ export const Layout: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [claimJson, setClaimJson] = useState<any | null>(null);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState(false);
+
+  // Auto-start tour for new visitors
+  useEffect(() => {
+    const hasSeen = localStorage.getItem('has_seen_tour_sandbox');
+    if (!hasSeen) {
+      const timer = setTimeout(() => {
+        setIsTourOpen(true);
+        localStorage.setItem('has_seen_tour_sandbox', 'true');
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // Sync selected patient from patients array if modified
   useEffect(() => {
@@ -222,6 +236,12 @@ export const Layout: React.FC = () => {
           >
             Ecosystem
           </button>
+          <button 
+            onClick={() => setIsTourOpen(true)} 
+            className="text-amber-700 bg-amber-50 hover:text-amber-800 hover:bg-amber-100/80 border border-amber-250/40 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95 flex items-center gap-1 font-extrabold"
+          >
+            ✨ Quick Tour
+          </button>
         </nav>
       </div>
 
@@ -265,6 +285,7 @@ export const Layout: React.FC = () => {
               {patients.map((pat) => (
                 <button
                   key={pat.id}
+                  id={`patient-btn-${pat.id}`}
                   onClick={() => {
                     if (!isRunning) {
                       setSelectedPatient(pat);
@@ -414,6 +435,20 @@ export const Layout: React.FC = () => {
         onStepChange={setStep}
         isOpen={isConsoleOpen}
         setIsOpen={setIsConsoleOpen}
+      />
+
+      <OnboardingTour
+        isOpen={isTourOpen}
+        onClose={() => setIsTourOpen(false)}
+        isRunning={isRunning}
+        triggerSimulation={handleTriggerPipeline}
+        selectedPatientId={selectedPatient.id}
+        onSelectPatient={(id) => {
+          const pat = patients.find((p) => p.id === id);
+          if (pat) setSelectedPatient(pat);
+        }}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
       />
       
     </div>

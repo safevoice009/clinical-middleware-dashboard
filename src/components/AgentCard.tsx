@@ -87,6 +87,7 @@ export const AgentCard: React.FC<PipelineProps> = ({ pipeline, onTrigger, isRunn
       {/* Large button controller */}
       <div className="relative z-10 mt-5">
         <button
+          id="run-intake-btn"
           onClick={onTrigger}
           disabled={isRunning}
           className={`w-full py-3.5 px-4 rounded-xl font-mono text-[10px] font-bold tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 border cursor-pointer ${

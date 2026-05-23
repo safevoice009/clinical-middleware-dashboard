@@ -167,6 +167,7 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
             return (
               <button
                 key={idx}
+                id={`stepper-node-${idx}`}
                 onClick={() => {
                   if (!isRunning) setActiveStep(idx);
                 }}

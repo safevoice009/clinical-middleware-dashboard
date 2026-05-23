@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, Shield, RefreshCw, FileCode, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Terminal, RefreshCw, FileCode, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Patient {
   id: string;
@@ -22,12 +22,19 @@ interface TerminalConsoleProps {
   patient: Patient;
   isRunning: boolean;
   onFinished: (claimData: any) => void;
+  onStepChange: (step: number) => void;
 }
 
-export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRunning, onFinished }) => {
+export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
+  patient,
+  isRunning,
+  onFinished,
+  onStepChange
+}) => {
   const [logs, setLogs] = useState<{ time: string; text: string; type: 'system' | 'reasoning' | 'warning' | 'success' | 'info' }[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [claimJson, setClaimJson] = useState<any | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getTimestamp = () => {
@@ -39,22 +46,26 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
     {
       text: `[SYSTEM]: Ingesting Patient EHR data packet for [${patient.name}, ${patient.age}yo ${patient.gender}]... [MedAgentBench Ingestion Setup]`,
       type: 'system' as const,
-      delay: 1000
+      delay: 1200,
+      stepperIndex: 1
     },
     {
       text: `[CLINICAL LOGIC]: Initiating AgentClinic diagnostics via unstructured note parsing...`,
       type: 'info' as const,
-      delay: 1500
+      delay: 1400,
+      stepperIndex: 1
     },
     {
       text: `[CLINICAL REASONING]: Primary Impression suspected: "${patient.diagnoses[0]}". Extracting confidence parameters...`,
       type: 'reasoning' as const,
-      delay: 2000
+      delay: 1800,
+      stepperIndex: 2
     },
     {
       text: `[OPERATIONAL INTERCEPT]: Intercepting EHR output. Checking billing compatibility...`,
       type: 'system' as const,
-      delay: 1500
+      delay: 1200,
+      stepperIndex: 2
     },
     {
       text: `[ICD-10 AUDIT]: Cross-referencing clinical impression with ICD-10-CM registries... Matches Code: ${
@@ -62,25 +73,30 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
         patient.id === 'pat_002' ? 'I21.4 (Non-ST elevation myocardial infarction)' : 'J20.9 / J45.909 (Acute bronchitis / Asthma)'
       }`,
       type: 'reasoning' as const,
-      delay: 1800
+      delay: 1600,
+      stepperIndex: 3
     },
     {
       text: `[PAYER RULE AUDIT]: Verifying contract eligibility constraints for ${patient.insurance.payer} (Policy: ${patient.insurance.policy_id})...`,
       type: 'info' as const,
-      delay: 1500
+      delay: 1400,
+      stepperIndex: 3
     },
     {
       text: `[COMPLIANCE CHECK]: Validating provider credentials and pre-authorization requirements... Zero exclusions detected.`,
       type: 'success' as const,
-      delay: 1200
+      delay: 1200,
+      stepperIndex: 4
     },
     {
       text: `[SUCCESS]: Operational middleware audit complete. Claim record compiled safely.`,
       type: 'success' as const,
-      delay: 1000
+      delay: 1000,
+      stepperIndex: 4
     }
   ];
 
+  // Reset and trigger execution loop
   useEffect(() => {
     if (!isRunning) {
       setLogs([]);
@@ -91,8 +107,17 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
 
     setLogs([{ time: getTimestamp(), text: "Initializing Autonomous Middleware Execution Loop...", type: 'system' }]);
     setCurrentStep(0);
+    onStepChange(0);
   }, [isRunning, patient]);
 
+  // Open the drawer automatically when simulation starts
+  useEffect(() => {
+    if (isRunning) {
+      setIsOpen(true);
+    }
+  }, [isRunning]);
+
+  // Advance simulation steps
   useEffect(() => {
     if (!isRunning || currentStep >= steps.length) {
       if (isRunning && currentStep === steps.length && !claimJson) {
@@ -122,11 +147,13 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
     const timer = setTimeout(() => {
       setLogs((prev) => [...prev, { time: getTimestamp(), text: nextStep.text, type: nextStep.type }]);
       setCurrentStep((prev) => prev + 1);
+      onStepChange(nextStep.stepperIndex);
     }, nextStep.delay);
 
     return () => clearTimeout(timer);
   }, [isRunning, currentStep, patient]);
 
+  // Contain scroll to log window
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -134,111 +161,102 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({ patient, isRun
   }, [logs]);
 
   return (
-    <div className="bg-white border border-slate-100 rounded-[28px] p-6 font-mono text-xs leading-relaxed shadow-[0_15px_40px_rgba(0,0,0,0.02)] h-[480px] flex flex-col relative overflow-hidden transition-all duration-300">
-      
-      {/* Top Header Panel */}
-      <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4 shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-100"></span>
-          </div>
-          <span className="text-slate-500 font-semibold flex items-center gap-1.5 pl-3 border-l border-slate-100 tracking-tight">
-            <Terminal className="w-3.5 h-3.5 text-slate-500 animate-pulse" />
-            Autonomous Middleware Console
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {isRunning && (
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 text-slate-600 border border-slate-100 text-[9px] font-bold tracking-wider uppercase">
-              <RefreshCw className="w-3 h-3 animate-spin text-slate-400" />
-              Processing
-            </span>
-          )}
-          <span className="text-slate-400 text-[10px]">v1.2.0-beta</span>
-        </div>
-      </div>
-
-      {/* Terminal logs container */}
-      <div ref={containerRef} className="flex-1 overflow-y-auto space-y-3 bg-slate-50/50 border border-slate-100/50 rounded-2xl p-5 pr-3 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-        {logs.map((log, index) => {
-          let typeColor = 'text-slate-500';
-          let badgeText = '➜';
-          if (log.type === 'system') {
-            typeColor = 'text-slate-800 font-bold';
-            badgeText = '[SYS]';
-          } else if (log.type === 'reasoning') {
-            typeColor = 'text-purple-700 font-bold';
-            badgeText = '[COG]';
-          } else if (log.type === 'warning') {
-            typeColor = 'text-amber-700 font-bold';
-            badgeText = '[WRN]';
-          } else if (log.type === 'success') {
-            typeColor = 'text-emerald-700 font-bold';
-            badgeText = '[OK]';
-          } else if (log.type === 'info') {
-            typeColor = 'text-slate-600';
-            badgeText = '[INF]';
-          }
-
-          return (
-            <div key={index} className="transition-all duration-300 animate-fadeIn flex items-start gap-1">
-              <span className="text-slate-400 select-none mr-2 font-light shrink-0">[{log.time}]</span>
-              <span className={`${typeColor} shrink-0 mr-1.5`}>{badgeText}</span>
-              <span className="text-slate-700">{log.text}</span>
+    <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-6">
+      <div 
+        className={`w-full max-w-5xl bg-stone-900 border border-stone-850 rounded-t-[32px] overflow-hidden shadow-[0_-15px_40px_rgba(0,0,0,0.15)] transition-all duration-500 ease-in-out ${
+          isOpen ? 'h-[360px]' : 'h-16'
+        }`}
+      >
+        {/* Toggle Header Panel */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between px-8 py-5 hover:bg-stone-850/50 transition-colors cursor-pointer text-left focus:outline-none"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-stone-600"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-stone-700"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-stone-800"></span>
             </div>
-          );
-        })}
-        {isRunning && currentStep < steps.length && (
-          <div className="flex items-center gap-1 text-slate-400 animate-pulse mt-2 pl-1 font-mono">
-            <span>▋</span>
-            <span>Agent reasoning in progress...</span>
+            <span className="text-[#fbfaf7] font-extrabold flex items-center gap-2 pl-4 border-l border-stone-800 tracking-tight font-mono text-xs uppercase">
+              <Terminal className="w-4 h-4 text-stone-400" />
+              Developer Telemetry Logs
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            {isRunning && (
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-800 text-stone-300 text-[9px] font-extrabold tracking-wider uppercase font-mono border border-stone-700">
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-stone-400" />
+                Stream Active
+              </span>
+            )}
+            {isOpen ? (
+              <ChevronDown className="w-5 h-5 text-stone-400" />
+            ) : (
+              <ChevronUp className="w-5 h-5 text-stone-400" />
+            )}
+          </div>
+        </button>
+
+        {/* Collapsible Logs Container */}
+        {isOpen && (
+          <div className="px-8 pb-6 space-y-4">
+            <div 
+              ref={containerRef} 
+              className="h-[230px] overflow-y-auto space-y-2 bg-stone-950 border border-stone-850 rounded-2xl p-5 pr-3 font-mono text-[11px] leading-relaxed text-stone-350 scrollbar-thin scrollbar-thumb-stone-850 scrollbar-track-transparent select-text"
+            >
+              {logs.length === 0 ? (
+                <p className="text-stone-500 italic my-auto">
+                  No telemetry stream active. Select a patient and click "Run Intake Pipeline" above to capture live processing logs.
+                </p>
+              ) : (
+                logs.map((log, index) => {
+                  let typeColor = 'text-stone-400';
+                  let badgeText = '➜';
+                  let badgeColor = 'text-stone-500';
+
+                  if (log.type === 'system') {
+                    typeColor = 'text-stone-200 font-bold';
+                    badgeText = '[SYS]';
+                    badgeColor = 'text-stone-400';
+                  } else if (log.type === 'reasoning') {
+                    typeColor = 'text-[#d6c7b3] font-bold';
+                    badgeText = '[COG]';
+                    badgeColor = 'text-[#a89984]';
+                  } else if (log.type === 'warning') {
+                    typeColor = 'text-amber-300 font-bold';
+                    badgeText = '[WRN]';
+                    badgeColor = 'text-amber-500';
+                  } else if (log.type === 'success') {
+                    typeColor = 'text-emerald-300 font-bold';
+                    badgeText = '[ OK]';
+                    badgeColor = 'text-emerald-500';
+                  } else if (log.type === 'info') {
+                    typeColor = 'text-stone-350';
+                    badgeText = '[INF]';
+                    badgeColor = 'text-stone-500';
+                  }
+
+                  return (
+                    <div key={index} className="flex items-start gap-1">
+                      <span className="text-stone-600 select-none mr-2 shrink-0">[{log.time}]</span>
+                      <span className={`${badgeColor} font-bold shrink-0 mr-2`}>{badgeText}</span>
+                      <span className={typeColor}>{log.text}</span>
+                    </div>
+                  );
+                })
+              )}
+              {isRunning && currentStep < steps.length && (
+                <div className="flex items-center gap-1.5 text-stone-500 animate-pulse mt-3 pl-1 font-mono">
+                  <span>▋</span>
+                  <span>Executing autonomous routing step...</span>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
-
-      {/* Final Claim Output panel */}
-      {claimJson && (
-        <div className="border-t border-slate-100 pt-4 mt-4 bg-slate-50/80 backdrop-blur-md -mx-6 -mb-6 p-6 shrink-0 animate-slideUp">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-slate-800 flex items-center gap-1.5 text-xs font-bold">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              Claim Ready for Ingestion
-            </span>
-            <span className="text-[10px] text-slate-400 font-bold">ID: {claimJson.claimId}</span>
-          </div>
-          <div className="bg-white border border-slate-200/60 rounded-xl p-4 text-[11px] font-mono text-slate-600 overflow-x-auto max-h-[120px] select-all shadow-inner">
-            <pre>{JSON.stringify(claimJson, null, 2)}</pre>
-          </div>
-          <div className="flex gap-3 mt-4">
-            <button
-              onClick={() => {
-                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(claimJson, null, 2));
-                const downloadAnchor = document.createElement('a');
-                downloadAnchor.setAttribute("href", dataStr);
-                downloadAnchor.setAttribute("download", `claim-${claimJson.claimId}.json`);
-                document.body.appendChild(downloadAnchor);
-                downloadAnchor.click();
-                downloadAnchor.remove();
-              }}
-              className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold font-mono text-[10px] tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
-            >
-              <FileCode className="w-3.5 h-3.5" />
-              Export Claim JSON
-            </button>
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(JSON.stringify(claimJson, null, 2));
-                alert('Claim JSON copied to clipboard!');
-              }}
-              className="py-3 px-5 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-mono text-[10px] tracking-wider uppercase transition-colors cursor-pointer"
-            >
-              Copy Raw
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

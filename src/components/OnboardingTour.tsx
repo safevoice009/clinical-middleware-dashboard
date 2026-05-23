@@ -167,6 +167,17 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     };
   }, [currentStep, isOpen]);
 
+  // Auto advance for Step 3 (Developer Telemetry Drawer) in both manual and auto modes
+  useEffect(() => {
+    if (isOpen && currentStep === 3) {
+      const timer = setTimeout(() => {
+        handleNext();
+      }, 2600);
+      activeTimers.current.push(timer);
+      return () => clearTimeout(timer);
+    }
+  }, [currentStep, isOpen]);
+
   // Execute Auto-Demo animation steps
   useEffect(() => {
     if (!isAutoPlaying || !isOpen) return;

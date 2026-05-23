@@ -211,6 +211,9 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
           })}
         </div>
       </div>
+      <div className="md:hidden text-[9px] font-mono text-stone-400 text-center -mt-5 mb-6 animate-pulse flex items-center justify-center gap-1.5">
+        <span>Swipe horizontally to view pipeline stages ➜</span>
+      </div>
 
       {/* active Bento Card Sandbox Stage */}
       <div className={`transition-all duration-700 relative overflow-hidden border rounded-[32px] p-8 min-h-[380px] ${
@@ -232,7 +235,7 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
         )}
         
         {/* Apple Style corner category */}
-        <div className={`absolute top-8 right-8 flex items-center gap-1.5 px-3 py-1 rounded-full border font-mono text-[9px] font-bold uppercase tracking-widest transition-all duration-500 ${
+        <div className={`relative md:absolute top-0 right-0 md:top-8 md:right-8 mb-6 md:mb-0 max-w-max self-start z-20 flex items-center gap-1.5 px-3 py-1 rounded-full border font-mono text-[9px] font-bold uppercase tracking-widest transition-all duration-500 ${
           isRunning 
             ? 'bg-amber-50 border-amber-200 text-amber-700 shadow-sm' 
             : claimJson 

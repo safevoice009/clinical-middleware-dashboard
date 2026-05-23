@@ -199,8 +199,8 @@ export const Layout: React.FC = () => {
     <div id="overview" className="min-h-screen bg-[#fbfaf7] text-stone-900 flex flex-col font-sans select-none pb-32 scroll-smooth">
       
       {/* Floating navigation pill menu */}
-      <div className="w-full flex justify-center pt-8 px-4 relative z-40">
-        <nav className="bg-white/95 backdrop-blur-md border border-[#eae6df] px-4 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-2 items-center text-xs font-bold uppercase tracking-widest text-stone-500">
+      <div className="w-full flex justify-center pt-8 px-4 relative z-40 max-w-full">
+        <nav className="bg-white/95 backdrop-blur-md border border-[#eae6df] px-4 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-1.5 md:gap-2 items-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-stone-500 overflow-x-auto max-w-full scrollbar-none whitespace-nowrap">
           <button 
             onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} 
             className="hover:text-stone-900 hover:bg-stone-50 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none hover:scale-105 active:scale-95"

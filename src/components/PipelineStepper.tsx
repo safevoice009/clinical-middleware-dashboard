@@ -136,8 +136,8 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
   return (
     <div className="w-full">
       {/* 4-Step Flowchart SVG Node Graphic */}
-      <div className="w-full bg-[#f6f4ee] border border-[#eae6df] rounded-[32px] p-6 mb-8 shadow-sm">
-        <div className="flex justify-between items-center max-w-4xl mx-auto relative px-4">
+      <div className="w-full bg-[#f6f4ee] border border-[#eae6df] rounded-[32px] p-6 mb-8 shadow-sm overflow-x-auto scrollbar-none">
+        <div className="flex justify-between items-center min-w-[600px] md:min-w-0 max-w-4xl mx-auto relative px-4">
           
           {/* Connection Lines Container */}
           <div className="absolute top-[28px] left-[10%] right-[10%] h-[3px] bg-stone-200/80 rounded-full -z-0 overflow-hidden">

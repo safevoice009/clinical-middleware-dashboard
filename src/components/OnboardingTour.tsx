@@ -35,13 +35,23 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const [highlightRect, setHighlightRect] = useState<DOMRect | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0, scale: 1, visible: false });
+  const [isMobile, setIsMobile] = useState(false);
   const activeTimers = useRef<any[]>([]);
   const activeIntervals = useRef<any[]>([]);
+
+  // Listen to window size for responsive mobile layouts
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const tourSteps: TourStep[] = [
     {
       title: "Clinical Systems Playground",
-      description: "Welcome, Doctor! This dashboard simulates an autonomous clinical intake pipeline. Let's take a quick guided tour to see how NLP parsing and insurance guardrails work.",
+      description: "Welcome! This dashboard simulates an autonomous clinical intake pipeline. Let's take a quick guided tour to see how NLP parsing and insurance guardrails work.",
       popoverPlacement: "center"
     },
     {
@@ -99,7 +109,7 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     activeIntervals.current.push(i);
   };
 
-  // Run tour lifecycle positioning
+  // Run tour lifecycle positioning & dynamic tracking polling (every 100ms)
   useEffect(() => {
     if (!isOpen) {
       setHighlightRect(null);
@@ -112,40 +122,48 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
     const stepData = tourSteps[currentStep];
     if (!stepData) return;
 
+    // Initial scroll into view
     if (stepData.targetId) {
       const el = document.getElementById(stepData.targetId);
       if (el) {
-        // Smooth scroll to the target
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Wait for scrolling to finish, then compute coordinates
-        const scrollTimer = setTimeout(() => {
-          const rect = el.getBoundingClientRect();
-          setHighlightRect(rect);
-        }, 500);
-        activeTimers.current.push(scrollTimer);
-      } else {
-        setHighlightRect(null);
       }
-    } else {
-      setHighlightRect(null);
-      setCursorPos(prev => ({ ...prev, visible: false }));
     }
 
-    // Scroll resize listener
-    const handleUpdate = () => {
+    const updateRect = () => {
       if (stepData.targetId) {
         const el = document.getElementById(stepData.targetId);
         if (el) {
-          setHighlightRect(el.getBoundingClientRect());
+          const rect = el.getBoundingClientRect();
+          setHighlightRect((prev) => {
+            if (
+              !prev ||
+              prev.top !== rect.top ||
+              prev.bottom !== rect.bottom ||
+              prev.left !== rect.left ||
+              prev.right !== rect.right ||
+              prev.width !== rect.width ||
+              prev.height !== rect.height
+            ) {
+              return rect;
+            }
+            return prev;
+          });
+        } else {
+          setHighlightRect(null);
         }
+      } else {
+        setHighlightRect(null);
+        setCursorPos(prev => ({ ...prev, visible: false }));
       }
     };
-    window.addEventListener('resize', handleUpdate);
-    window.addEventListener('scroll', handleUpdate);
+
+    updateRect();
+    const interval = setInterval(updateRect, 100);
+    activeIntervals.current.push(interval);
+
     return () => {
-      window.removeEventListener('resize', handleUpdate);
-      window.removeEventListener('scroll', handleUpdate);
+      clearInterval(interval);
     };
   }, [currentStep, isOpen]);
 
@@ -287,6 +305,20 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
 
   // Compute position relative to highlight rect
   const getPopoverStyle = () => {
+    if (isMobile) {
+      // Fixed bottom sheet drawer on mobile devices to prevent cutting off controls
+      return {
+        position: 'fixed' as const,
+        bottom: '24px',
+        left: '16px',
+        right: '16px',
+        width: 'calc(100vw - 32px)',
+        zIndex: 9998,
+        transform: 'none',
+        transition: 'all 0.4s ease-out',
+      };
+    }
+
     if (!highlightRect || currentStepData.popoverPlacement === 'center') {
       return {
         position: 'fixed' as const,
@@ -354,7 +386,7 @@ export const OnboardingTour: React.FC<OnboardingTourProps> = ({
       {/* Tour Dialog Popover Card */}
       <div 
         style={getPopoverStyle()}
-        className="w-80 bg-[#fbfaf7] border border-[#eae6df] text-stone-900 rounded-[28px] p-6 shadow-[0_20px_50px_rgba(28,25,23,0.15)] flex flex-col justify-between max-w-sm overflow-hidden select-none animate-fadeIn"
+        className="w-[calc(100vw-32px)] md:w-80 bg-[#fbfaf7] border border-[#eae6df] text-stone-900 rounded-[28px] p-6 shadow-[0_20px_50px_rgba(28,25,23,0.15)] flex flex-col justify-between max-w-sm overflow-hidden select-none animate-fadeIn"
       >
         <div className="flex justify-between items-start mb-3">
           <span className="inline-flex items-center gap-1 text-[8px] font-mono font-bold tracking-wider uppercase text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/50">

@@ -125,4 +125,14 @@ body {
   animation: flowLine 3s linear infinite;
 }
 
+/* Hide scrollbar utility for clean mobile sliding tracks */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
 

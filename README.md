@@ -21,7 +21,7 @@
     Watch the 2-minute clinical workflow execution, code transpilation, and live telemetry audit stream:
   </p>
 
-  <video src="linkedin_product_demo_2.mp4" width="100%" controls autoplay loop muted style="border-radius: 12px; border: 1px solid #eae6df; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"></video>
+  <video src="product_demo_video.mp4" width="100%" controls autoplay loop muted style="border-radius: 12px; border: 1px solid #eae6df; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"></video>
 </div>
 
 ---

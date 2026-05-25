@@ -22,6 +22,10 @@
   </p>
 
   <video src="product_demo_video.mp4" width="100%" controls autoplay loop muted style="border-radius: 12px; border: 1px solid #eae6df; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"></video>
+
+  <p align="center">
+    <sub><em>💡 If the video player above takes a moment to stream, you can <a href="product_demo_video.mp4" target="_blank">view or download the demo video file directly here</a>.</em></sub>
+  </p>
 </div>
 
 ---

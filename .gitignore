@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# demo scripts and extra files (only kept locally in the IDE)
+/sandbox_demo_assets/
+/final_linkedin_product_demo.mp4
+/Gemini-Temporary Chat (1).md
+

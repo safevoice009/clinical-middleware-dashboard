@@ -1,13 +1,50 @@
-# 🏥 Clinical Systems Architecture // EHR Operational Middleware
+<div align="center">
+  <img src="public/banner.png" alt="Clinical Systems Middleware Banner" width="100%" style="border-radius: 16px; margin-bottom: 24px;">
 
-[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel&logoColor=white)](https://clinical-middleware-dashboard.vercel.app)
-[![Supabase Postgres](https://img.shields.io/badge/Supabase-Database-151515?style=for-the-badge&logo=supabase&logoColor=3ECF8E)](https://supabase.com)
-[![GitHub Action Scraper](https://img.shields.io/badge/GitHub_Actions-Automation-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/safevoice009/clinical-middleware-dashboard/actions)
-[![Clinical Architecture](https://img.shields.io/badge/Framework-Next.js_16-blue?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
+  # 🏥 Clinical Systems Architecture // EHR Operational Middleware
 
-An autonomous, metadata-first **Clinical-to-Billing Intercept Middleware Playground** designed to bridge the structural gap between advanced medical AI reasoning agents and legacy healthcare revenue cycles. 
+  [![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel&logoColor=white)](https://clinical-middleware-dashboard.vercel.app)
+  [![Supabase Postgres](https://img.shields.io/badge/Supabase-Database-151515?style=for-the-badge&logo=supabase&logoColor=3ECF8E)](https://supabase.com)
+  [![GitHub Action Scraper](https://img.shields.io/badge/GitHub_Actions-Automation-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/safevoice009/clinical-middleware-dashboard/actions)
+  [![Clinical Architecture](https://img.shields.io/badge/Framework-Next.js_16-blue?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
 
-Developed by **Dr. Baddam Sucharith Reddy** (AI-Assisted), this platform acts as an automated "smart guardrail" cockpit, intercepting unstructured clinical notes from LLM reasoning models, predicting impressions, transpiling them to standard **ICD-10-CM / CPT codes**, and checking payer policies in real time.
+  <p align="center">
+    An autonomous, metadata-first <strong>Clinical-to-Billing Intercept Middleware Playground</strong> designed to bridge the structural gap between advanced medical AI reasoning agents and legacy healthcare revenue cycles.
+  </p>
+  
+  ---
+  
+  <h3>📺 System Walkthrough & Product Demo</h3>
+  
+  <video src="linkedin_product_demo_2.mp4" width="100%" controls autoplay loop muted style="border-radius: 12px; border: 1px solid #eae6df; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"></video>
+</div>
+
+---
+
+## 🚀 Core Engine Features
+
+<table width="100%" border="0" cellpadding="10" cellspacing="0">
+  <tr>
+    <td width="50%" valign="top" style="border: none;">
+      <h3>📥 1. EHR Intake Ingestion</h3>
+      <p>Captures raw clinical notes from Electronic Health Records (EHR) and patient profiles. Standardizes inputs for downstream differential AI models.</p>
+    </td>
+    <td width="50%" valign="top" style="border: none;">
+      <h3>🧠 2. LLM Clinical Reasoning</h3>
+      <p>Integrates diagnostic models (inspired by <strong>AgentClinic</strong>) to extract differential impression confidence scores (Circular SVG dials).</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" style="border: none;">
+      <h3>⚙️ 3. ICD-10 & CPT Transpiler</h3>
+      <p>Autonomous mapping of symptoms and clinical impressions to validated, standard billing code registries (ICD-10-CM / CPT).</p>
+    </td>
+    <td width="50%" valign="top" style="border: none;">
+      <h3>🛡️ 4. Insurance Payer Auditing</h3>
+      <p>Real-time checks on policy eligibility guidelines, provider NPI credentials, and pre-authorization exclusions (Aetna/BCBS/UHC).</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -47,23 +84,23 @@ sequenceDiagram
 
 ---
 
-## 🎨 Creative Interactive Interface (Bento Cockpit)
+## 🎨 Bento Cockpit Play Sandbox
 
 The deployed web application provides a responsive, sand-toned play sandbox where you can:
-- **Edit Narrative Notes**: Under **Step 1**, modify the patient's symptoms or narrative and re-verify how it updates outputs.
-- **Inspect Confidence Gauges**: Under **Step 2**, view diagnostic outcomes and watch the circular SVG confidence dial animate.
-- **Hover billing Tooltips**: Under **Step 3**, hover over CPT/ICD code badges to view detailed procedural explanations.
-- **Underwrite Claims**: Under **Step 4**, review pre-auth checklists and export/copy compile claim JSON structures.
-- **Read Developer Telemetry Logs**: Expand or auto-collapse the bottom logs drawer featuring colored, macOS-styled console streams.
+* 📝 **Edit Narrative Notes**: Under **Step 1**, modify the patient's symptoms or narrative and re-verify how it updates outputs.
+* 📊 **Inspect Confidence Gauges**: Under **Step 2**, view diagnostic outcomes and watch the circular SVG confidence dial animate.
+* 🏷️ **Hover Billing Tooltips**: Under **Step 3**, hover over CPT/ICD code badges to view detailed procedural explanations.
+* 📑 **Underwrite Claims**: Under **Step 4**, review pre-auth checklists and export/copy compiled claim JSON structures.
+* 💻 **Read Developer Telemetry Logs**: Expand or auto-collapse the bottom logs drawer featuring colored, macOS-styled console streams.
 
 ---
 
 ## 🛠️ The Tech Stack
 
-- **Frontend Core**: [Next.js 16.2.6 (App Router)](https://nextjs.org/) + [React 19.2.4](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- **Typography & Aesthetics**: [Tailwind CSS v4](https://tailwindcss.com/) using **Lora** (Editorial Serif) & **Outfit** (Sans-Serif) Google Fonts.
-- **Database & Telemetry**: [Supabase](https://supabase.com/) (PostgreSQL Relational DB)
-- **Deployment & Preview**: [Vercel CI/CD Pipeline](https://vercel.com/)
+* **Frontend Core**: [Next.js 16.2.6 (App Router)](https://nextjs.org/) + [React 19.2.4](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+* **Styling & Aesthetics**: [Tailwind CSS v4](https://tailwindcss.com/) using **Lora** (Editorial Serif) & **Outfit** (Sans-Serif) Google Fonts.
+* **Database & Telemetry**: [Supabase](https://supabase.com/) (PostgreSQL Relational DB)
+* **Deployment & Preview**: [Vercel CI/CD Pipeline](https://vercel.com/)
 
 ---
 
@@ -116,8 +153,8 @@ VALUES (
 ## 🤖 Repository Scraper & Automation Cron
 
 To keep the pipeline metadata synchronized, a scheduled Python scraper run checks GitHub repository statistics and updates community trust scores:
-- **Script**: `scraper/medical_scraper.py` (uses built-in `urllib` to make HTTPS calls with zero extra dependencies).
-- **Automation Workflow**: `.github/workflows/scraper.yml` (runs every Sunday at midnight UTC).
+* 🐍 **Script**: `scraper/medical_scraper.py` (uses built-in `urllib` to make HTTPS calls with zero extra dependencies).
+* ⚙️ **Automation Workflow**: `.github/workflows/scraper.yml` (runs every Sunday at midnight UTC).
 
 ---
 
